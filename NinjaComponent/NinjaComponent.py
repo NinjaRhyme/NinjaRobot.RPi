@@ -1,13 +1,12 @@
 # coding=utf-8
 
 import time
-import RPi.GPIO as GPIO
 
 # ----------------------------------------------------------------------------------------------------
-class NinjaHeart(object):
-    def __init__(self, robot):
-        self.robot = robot
-        self.initComponents()
+class NinjaComponent(object):
+    def __init__(self):
+        self.pins = {}
+        pass
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):
@@ -16,11 +15,3 @@ class NinjaHeart(object):
             pass
 
     # ----------------------------------------------------------------------------------------------------
-    def initGPIO(self):
-        GPIO.setwarnings(True)
-        GPIO.setmode(GPIO.BCM)
-        pass
-
-    # ----------------------------------------------------------------------------------------------------
-    def initComponents(self):
-        pass
