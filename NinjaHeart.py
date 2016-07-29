@@ -8,6 +8,7 @@ except:
 
 # Test
 from NinjaComponent.NinjaSteering import *
+from NinjaComponent.NinjaMotor import *
 
 # ----------------------------------------------------------------------------------------------------
 class NinjaHeart(object):
@@ -44,6 +45,9 @@ class NinjaHeart(object):
         steering = NinjaSteering()
         self.robot.controller.addObserver(steering)
         self.components.append(steering)
+        motor = NinjaMotor()
+        self.robot.controller.addObserver(motor)
+        self.components.append(motor)
 
         for component in self.components:
             pinNames = component.getPinNames()

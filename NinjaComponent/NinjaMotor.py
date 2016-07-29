@@ -1,9 +1,11 @@
 # coding=utf-8
 
+from NinjaComponent import *
+
 # ----------------------------------------------------------------------------------------------------
-class NinjaComponent(object):
+class NinjaMotor(NinjaComponent):
     def __init__(self):
-        self.pins = {}
+        super(NinjaMotor, self).__init__()
         pass
 
     # ----------------------------------------------------------------------------------------------------
@@ -12,11 +14,17 @@ class NinjaComponent(object):
 
     # ----------------------------------------------------------------------------------------------------
     def getPinNames(self):
-        return [];
-
-    def setPins(self, pins):
-        self.pins.update(pins)
+        return ["car_left_motor_forward_signal_pin",
+            "car_left_motor_backward_signal_pin",
+            "car_right_motor_forward_signal_pin",
+            "car_right_motor_backward_signal_pin"];
 
     # ----------------------------------------------------------------------------------------------------
     def onKeyInput(self, char):
+        if char == 'w':
+            print("forward")
+            return True
+        elif char == 's':
+            print("backward")
+            return True
         return False

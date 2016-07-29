@@ -1,13 +1,11 @@
 # coding=utf-8
 
-import time
-
 from NinjaComponent import *
 
 # ----------------------------------------------------------------------------------------------------
 class NinjaSteering(NinjaComponent):
     def __init__(self):
-        self.pins = {}
+        super(NinjaSteering, self).__init__()
         pass
 
     # ----------------------------------------------------------------------------------------------------
