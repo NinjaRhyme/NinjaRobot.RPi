@@ -14,10 +14,12 @@ class NinjaMotor(NinjaComponent):
 
     # ----------------------------------------------------------------------------------------------------
     def getPinNames(self):
-        return ["car_left_motor_forward_signal_pin",
+        return [
+            "car_left_motor_forward_signal_pin",
             "car_left_motor_backward_signal_pin",
             "car_right_motor_forward_signal_pin",
-            "car_right_motor_backward_signal_pin"];
+            "car_right_motor_backward_signal_pin"
+        ];
 
     # ----------------------------------------------------------------------------------------------------
     def onKeyInput(self, char):

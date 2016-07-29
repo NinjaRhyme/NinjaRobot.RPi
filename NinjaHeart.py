@@ -7,7 +7,6 @@ except:
     pass
 
 # Test
-from NinjaComponent.NinjaSteering import *
 from NinjaComponent.NinjaMotor import *
 
 # ----------------------------------------------------------------------------------------------------
@@ -20,6 +19,9 @@ class NinjaHeart(object):
 
     def __del__(self):
         try:
+            for component in self.components:
+                self.robot.controller.removeObserver(component)
+            self.components = []
             GPIO.cleanup()
         except:
             pass
@@ -42,14 +44,13 @@ class NinjaHeart(object):
 
     # ----------------------------------------------------------------------------------------------------
     def initComponents(self):
-        steering = NinjaSteering()
-        self.robot.controller.addObserver(steering)
-        self.components.append(steering)
-        motor = NinjaMotor()
-        self.robot.controller.addObserver(motor)
-        self.components.append(motor)
+        for component in self.robot.memory.config["components"]:
+            componentModule = __import__('NinjaComponent.' + component, globals(), locals(), [component])
+            componentClass = getattr(componentModule, component)
+            self.components.append(componentClass())
 
         for component in self.components:
+            self.robot.controller.addObserver(component)
             pinNames = component.getPinNames()
             pins = {}
             for name in pinNames:

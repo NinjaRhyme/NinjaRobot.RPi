@@ -7,6 +7,11 @@ class NinjaMemory(object):
     def __init__(self, robot):
         self.robot = robot
         self.config = {
+            # components
+            "components" : [
+                "NinjaSteering",
+                "NinjaMotor",
+            ],
             # pins
             "car_steering_signal_pin" : 12,
             "car_left_motor_forward_signal_pin" : 1,
@@ -22,6 +27,7 @@ class NinjaMemory(object):
             time.sleep(0.1)
             pass
 
+    # Todo
     # ----------------------------------------------------------------------------------------------------
     def load_config(self):
         try:
@@ -32,6 +38,6 @@ class NinjaMemory(object):
                     if self.config.has_key(words[0]) and isinstance(self.config[words[0]], int):
                         self.config[words[0]] = int(words[1])
                     else:
-                        self.config[words[0]] = words[1] # Todo
+                        self.config[words[0]] = words[1]
         except Exception as e:
             print("ERROR", e)
