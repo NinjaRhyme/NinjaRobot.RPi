@@ -13,11 +13,9 @@ class NinjaMemory(object):
                 "NinjaMotor",
             ],
             # pins
-            "car_steering_signal_pin" : 12,
-            "car_left_motor_forward_signal_pin" : 1,
-            "car_left_motor_backward_signal_pin" : 2,
-            "car_right_motor_forward_signal_pin" : 1,
-            "car_right_motor_backward_signal_pin" : 2,
+            "car_steering_signal_pin" : 16,
+            "car_motor_forward_signal_pin" : 1,
+            "car_motor_backward_signal_pin" : 12,
         }
         self.load_config()
 
