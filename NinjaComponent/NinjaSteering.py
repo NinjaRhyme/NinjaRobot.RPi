@@ -1,7 +1,11 @@
 # coding=utf-8
 
+import time
+
+from NinjaComponent import *
+
 # ----------------------------------------------------------------------------------------------------
-class NinjaComponent(object):
+class NinjaSteering(NinjaComponent):
     def __init__(self):
         self.pins = {}
         pass
@@ -12,12 +16,14 @@ class NinjaComponent(object):
 
     # ----------------------------------------------------------------------------------------------------
     def getPinNames(self):
-        return [];
-
-    def setPins(self, pins):
-        self.pins.update(pins)
+        return ["car_steering_signal_pin"];
 
     # ----------------------------------------------------------------------------------------------------
     def onKeyInput(self, char):
-        
+        if char == 'a':
+            print("left")
+            return True
+        elif char == 'd':
+            print("right")
+            return True
         return False

@@ -8,9 +8,9 @@ class NinjaMemory(object):
         self.robot = robot
         self.config = {
             # pins
-            'car_steering_signal_pin' : 12,
-            'car_left_motor_signal_pin' : 0,
-            'car_right_motor_signal_pin' : 0,
+            "car_steering_signal_pin" : 12,
+            "car_left_motor_signal_pin" : 0,
+            "car_right_motor_signal_pin" : 0,
         }
         self.load_config()
 
@@ -30,6 +30,6 @@ class NinjaMemory(object):
                     if self.config.has_key(words[0]) and isinstance(self.config[words[0]], int):
                         self.config[words[0]] = int(words[1])
                     else:
-                        self.config[words[0]] = words[1]
+                        self.config[words[0]] = words[1] # TODO
         except Exception as e:
             print("ERROR", e)

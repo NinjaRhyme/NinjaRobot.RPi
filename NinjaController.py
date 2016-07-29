@@ -1,6 +1,6 @@
 # coding=utf-8
 
-import Utility.NinjaGetch as NinjaGetch
+from Utility.NinjaGetch import NinjaGetch
 
 # ----------------------------------------------------------------------------------------------------
 class NinjaController(object):
@@ -9,17 +9,28 @@ class NinjaController(object):
         self.getch = NinjaGetch();
         self.observers = [];
 
+    def __del__(self):
+        pass
+
     # ----------------------------------------------------------------------------------------------------
     def process(self):
         while True:
-            time.sleep(0.1)
+            char = self.getch()
+            print("input", char)
+            for observer in self.observers:
+                if observer is not None and hasattr(observer, 'onKeyInput') and hasattr(observer.onKeyInput, '__call__'):
+                    result = observer.onKeyInput(char)
+                    if result:
+                        break
             pass
 
     # ----------------------------------------------------------------------------------------------------
     def addObserver(self, observer):
-        pass
+        if observer is not None:
+            self.observers.append(observer)
 
     def removeObserver(self, observer):
-        pass
+        if observer is not None:
+            self.observers.remove(observer)
 
     # ----------------------------------------------------------------------------------------------------
