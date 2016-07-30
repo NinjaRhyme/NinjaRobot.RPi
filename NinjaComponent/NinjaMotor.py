@@ -45,12 +45,12 @@ class NinjaMotor(NinjaComponent):
         try:
             GPIO.setup(forward_signal_pin, GPIO.OUT)
             self.forward_signal_pin = GPIO.PWM(forward_signal_pin, 50)
-            self.forward_signal_pin.ChangeDutyCycle(0)
             self.forward_signal_pin.start(0)
+            self.forward_signal_pin.ChangeDutyCycle(0)
             GPIO.setup(backward_signal_pin, GPIO.OUT)
             self.backward_signal_pin = GPIO.PWM(backward_signal_pin, 50)
-            self.backward_signal_pin.ChangeDutyCycle(0)
             self.backward_signal_pin.start(0)
+            self.backward_signal_pin.ChangeDutyCycle(0)
         except:
             pass
 
