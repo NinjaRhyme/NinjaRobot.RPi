@@ -54,6 +54,6 @@ class NinjaHeart(object):
             pinNames = component.getPinNames()
             pins = {}
             for name in pinNames:
-                if self.robot.memory.config.has_key(name):
+                if name in self.robot.memory.config:
                     pins[name] = self.robot.memory.config[name]
             component.setPins(pins)

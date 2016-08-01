@@ -33,7 +33,7 @@ class NinjaMemory(object):
                 lines = fin.readlines()
                 for line in lines:
                     words = line.split()
-                    if self.config.has_key(words[0]) and isinstance(self.config[words[0]], int):
+                    if words[0] in self.config and isinstance(self.config[words[0]], int):
                         self.config[words[0]] = int(words[1])
                     else:
                         self.config[words[0]] = words[1]

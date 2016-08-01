@@ -5,7 +5,7 @@ try:
 except:
     pass
 
-from NinjaComponent import *
+from .NinjaComponent import *
 
 # ----------------------------------------------------------------------------------------------------
 class NinjaSteering(NinjaComponent):
