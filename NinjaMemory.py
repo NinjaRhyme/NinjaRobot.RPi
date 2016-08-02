@@ -5,6 +5,7 @@ import time
 # ----------------------------------------------------------------------------------------------------
 class NinjaMemory(object):
     def __init__(self, robot):
+        self.isRunning = True
         self.robot = robot
         self.config = {
             # components
@@ -24,9 +25,16 @@ class NinjaMemory(object):
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):
-        while True:
+        while self.isRunning:
             time.sleep(0.1)
             pass
+        self.exit()
+
+    def stop(self):
+        self.isRunning = False
+
+    def exit(self):
+        pass
 
     # Todo
     # ----------------------------------------------------------------------------------------------------

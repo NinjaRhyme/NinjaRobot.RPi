@@ -10,6 +10,9 @@ class NinjaComponent(object):
     def process(self):
         pass
 
+    def exit(self):
+        pass
+
     # ----------------------------------------------------------------------------------------------------
     def getPinNames(self):
         return [];

@@ -18,18 +18,18 @@ class NinjaMotor(NinjaComponent):
         self.backward_signal = 0
         pass
 
-    def __del__(self):
-        if self.forward_signal_pin is not None:
-            self.forward_signal_pin.stop()
-        if self.backward_signal_pin is not None:
-            self.backward_signal_pin.stop()
-
     # ----------------------------------------------------------------------------------------------------
     def process(self):
         if self.is_need_update:
             self.is_need_update = False
             self.forward_signal_pin.ChangeDutyCycle(self.forward_signal)
             self.backward_signal_pin.ChangeDutyCycle(self.backward_signal)
+
+    def exit(self):
+        if self.forward_signal_pin is not None:
+            self.forward_signal_pin.stop()
+        if self.backward_signal_pin is not None:
+            self.backward_signal_pin.stop()
 
     # ----------------------------------------------------------------------------------------------------
     def getPinNames(self):

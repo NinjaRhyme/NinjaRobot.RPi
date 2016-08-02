@@ -5,16 +5,14 @@ from Utility.NinjaGetch import NinjaGetch
 # ----------------------------------------------------------------------------------------------------
 class NinjaController(object):
     def __init__(self, robot):
+        self.isRunning = True
         self.robot = robot
         self.getch = NinjaGetch();
         self.observers = [];
 
-    def __del__(self):
-        pass
-
     # ----------------------------------------------------------------------------------------------------
     def process(self):
-        while True:
+        while self.isRunning:
             char = self.getch()
             print("input", char)
             for observer in self.observers:
@@ -23,6 +21,13 @@ class NinjaController(object):
                     if result:
                         break
             pass
+        self.exit()
+
+    def stop(self):
+        self.isRunning = False
+
+    def exit(self):
+        self.observers = []
 
     # ----------------------------------------------------------------------------------------------------
     def addObserver(self, observer):

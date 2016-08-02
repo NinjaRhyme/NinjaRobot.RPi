@@ -12,26 +12,32 @@ from NinjaComponent.NinjaMotor import *
 # ----------------------------------------------------------------------------------------------------
 class NinjaHeart(object):
     def __init__(self, robot):
+        self.isRunning = True
         self.robot = robot
         self.components = []
         self.initGPIO()
         self.initComponents()
 
-    def __del__(self):
-        try:
-            for component in self.components:
-                self.robot.controller.removeObserver(component)
-            self.components = []
-            GPIO.cleanup()
-        except:
-            pass
-
     # ----------------------------------------------------------------------------------------------------
     def process(self):
-        while True:
+        while self.isRunning:
             for component in self.components:
                 component.process()
             time.sleep(0.1)
+            pass
+        self.exit()
+
+    def stop(self):
+        self.isRunning = False
+
+    def exit(self):
+        try:
+            for component in self.components:
+                self.robot.controller.removeObserver(component)
+                component.exit()
+            self.components = []
+            GPIO.cleanup()
+        except:
             pass
 
     # ----------------------------------------------------------------------------------------------------

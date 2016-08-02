@@ -34,6 +34,12 @@ class NinjaRobot(object):
     # ----------------------------------------------------------------------------------------------------
     def onKeyInput(self, char):
         if char == '\x03':
+            self.heart.stop()
+            self.heart_thread.join()
+            self.memory.stop()
+            self.memory_thread.join()
+            self.controller.stop()
+            self.controller_thread.join() # current
             print("exit")
             exit(0)
             return True

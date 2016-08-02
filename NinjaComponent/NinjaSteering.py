@@ -15,15 +15,15 @@ class NinjaSteering(NinjaComponent):
         self.is_need_update = False
         self.signal = 7.5
 
-    def __del__(self):
-        if self.signal_pin is not None:
-            self.signal_pin.stop()
-
     # ----------------------------------------------------------------------------------------------------
     def process(self):
         if self.is_need_update:
             self.is_need_update = False
             self.signal_pin.ChangeDutyCycle(self.signal)
+
+    def exit(self):
+        if self.signal_pin is not None:
+            self.signal_pin.stop()
 
     # ----------------------------------------------------------------------------------------------------
     def getPinNames(self):
