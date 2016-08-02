@@ -11,11 +11,14 @@ class NinjaMemory(object):
             "components" : [
                 "NinjaSteering",
                 "NinjaMotor",
+                "NinjaCamera",
             ],
             # pins
             "car_steering_signal_pin" : 16,
             "car_motor_forward_signal_pin" : 1,
             "car_motor_backward_signal_pin" : 12,
+            "camera_luffing_steering_signal_pin" : 26,
+            "camera_swing_steering_signal_pin" : 13,
         }
         self.load_config()
 

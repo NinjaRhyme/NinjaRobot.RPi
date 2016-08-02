@@ -36,7 +36,7 @@ class NinjaSteering(NinjaComponent):
             GPIO.setup(signal_pin, GPIO.OUT)
             self.signal_pin = GPIO.PWM(signal_pin, 50)
             self.signal_pin.start(0)
-            self.signal_pin.ChangeDutyCycle(7.5)
+            self.signal_pin.ChangeDutyCycle(self.signal)
         except:
             pass
 
