@@ -9,8 +9,8 @@ from .NinjaComponent import *
 
 # ----------------------------------------------------------------------------------------------------
 class NinjaMotor(NinjaComponent):
-    def __init__(self):
-        super(NinjaMotor, self).__init__()
+    def __init__(self, name):
+        super(NinjaMotor, self).__init__(name)
         self.forward_signal_pin = None
         self.backward_signal_pin = None
         self.is_need_update = False
@@ -32,14 +32,8 @@ class NinjaMotor(NinjaComponent):
             self.backward_signal_pin.stop()
 
     # ----------------------------------------------------------------------------------------------------
-    def getPinNames(self):
-        return [
-            "car_motor_forward_signal_pin",
-            "car_motor_backward_signal_pin",
-        ];
-
-    def setPins(self, pins):
-        super(NinjaMotor, self).setPins(pins)
+    def on_pins_connect(self, pins):
+        super(NinjaMotor, self).on_pins_connect(pins)
         forward_signal_pin = self.pins["car_motor_forward_signal_pin"]
         backward_signal_pin = self.pins["car_motor_backward_signal_pin"]
         try:
@@ -55,7 +49,7 @@ class NinjaMotor(NinjaComponent):
             pass
 
     # ----------------------------------------------------------------------------------------------------
-    def onKeyInput(self, char):
+    def on_key_input(self, char):
         if char == 'w':
             self.forward_signal += 15
             if 100 < self.forward_signal:

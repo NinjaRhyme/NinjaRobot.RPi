@@ -2,7 +2,8 @@
 
 # ----------------------------------------------------------------------------------------------------
 class NinjaComponent(object):
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.pins = {}
         pass
 
@@ -14,12 +15,9 @@ class NinjaComponent(object):
         pass
 
     # ----------------------------------------------------------------------------------------------------
-    def getPinNames(self):
-        return [];
-
-    def setPins(self, pins):
+    def on_pins_connect(self, pins):
         self.pins.update(pins)
 
     # ----------------------------------------------------------------------------------------------------
-    def onKeyInput(self, char):
+    def on_key_input(self, char):
         return False

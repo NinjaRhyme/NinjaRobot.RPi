@@ -9,8 +9,8 @@ from .NinjaComponent import *
 
 # ----------------------------------------------------------------------------------------------------
 class NinjaSteering(NinjaComponent):
-    def __init__(self):
-        super(NinjaSteering, self).__init__()
+    def __init__(self, name):
+        super(NinjaSteering, self).__init__(name)
         self.signal_pin = None
         self.is_need_update = False
         self.signal = 7.5
@@ -26,11 +26,8 @@ class NinjaSteering(NinjaComponent):
             self.signal_pin.stop()
 
     # ----------------------------------------------------------------------------------------------------
-    def getPinNames(self):
-        return ["car_steering_signal_pin"];
-
-    def setPins(self, pins):
-        super(NinjaSteering, self).setPins(pins)
+    def on_pins_connect(self, pins):
+        super(NinjaSteering, self).on_pins_connect(pins)
         signal_pin = self.pins["car_steering_signal_pin"]
         try:
             GPIO.setup(signal_pin, GPIO.OUT)
@@ -41,7 +38,7 @@ class NinjaSteering(NinjaComponent):
             pass
 
     # ----------------------------------------------------------------------------------------------------
-    def onKeyInput(self, char):
+    def on_key_input(self, char):
         if char == 'a':
             if 6 < self.signal:
                 self.signal -= 0.4

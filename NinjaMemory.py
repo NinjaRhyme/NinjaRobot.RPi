@@ -5,33 +5,45 @@ import time
 # ----------------------------------------------------------------------------------------------------
 class NinjaMemory(object):
     def __init__(self, robot):
-        self.isRunning = True
+        self.is_running = True
         self.robot = robot
         self.config = {
             # components
-            "components" : [
-                "NinjaSteering",
-                "NinjaMotor",
-                "NinjaCamera",
-            ],
-            # pins
-            "car_steering_signal_pin" : 16,
-            "car_motor_forward_signal_pin" : 1,
-            "car_motor_backward_signal_pin" : 12,
-            "camera_luffing_steering_signal_pin" : 26,
-            "camera_swing_steering_signal_pin" : 13,
+            "components" : {
+                "NinjaSteering" : {
+                    "pins" : {
+                        "car_steering_signal_pin" : 16,
+                    },
+                },
+                "NinjaMotor" : {
+                    "pins" : {
+                        "car_motor_forward_signal_pin" : 1,
+                        "car_motor_backward_signal_pin" : 12,
+                    },
+                },
+                "NinjaCamera" : {
+                    "pins" : {
+                        "camera_luffing_steering_signal_pin" : 26,
+                        "camera_swing_steering_signal_pin" : 13,
+                    },
+                },
+            },
+            # services
+            "services" : {
+
+            }
         }
         self.load_config()
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):
-        while self.isRunning:
+        while self.is_running:
             time.sleep(0.1)
             pass
         self.exit()
 
     def stop(self):
-        self.isRunning = False
+        self.is_running = False
 
     def exit(self):
         pass

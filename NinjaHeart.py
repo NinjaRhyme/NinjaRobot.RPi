@@ -12,15 +12,14 @@ from NinjaComponent.NinjaMotor import *
 # ----------------------------------------------------------------------------------------------------
 class NinjaHeart(object):
     def __init__(self, robot):
-        self.isRunning = True
+        self.is_running = True
         self.robot = robot
         self.components = []
-        self.initGPIO()
-        self.initComponents()
+        self.init()
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):
-        while self.isRunning:
+        while self.is_running:
             for component in self.components:
                 component.process()
             time.sleep(0.1)
@@ -28,12 +27,12 @@ class NinjaHeart(object):
         self.exit()
 
     def stop(self):
-        self.isRunning = False
+        self.is_running = False
 
     def exit(self):
         try:
             for component in self.components:
-                self.robot.controller.removeObserver(component)
+                self.robot.controller.remove_observer(component)
                 component.exit()
             self.components = []
             GPIO.cleanup()
@@ -41,25 +40,20 @@ class NinjaHeart(object):
             pass
 
     # ----------------------------------------------------------------------------------------------------
-    def initGPIO(self):
+    def init(self):
+        # GPIO
         try:
             GPIO.setwarnings(True)
             GPIO.setmode(GPIO.BCM)
         except:
             pass
 
-    # ----------------------------------------------------------------------------------------------------
-    def initComponents(self):
-        for component in self.robot.memory.config["components"]:
-            componentModule = __import__('NinjaComponent.' + component, globals(), locals(), [component])
-            componentClass = getattr(componentModule, component)
-            self.components.append(componentClass())
-
+        # components
+        for name in self.robot.memory.config["components"]:
+            module = __import__('NinjaComponent.' + name, globals(), locals(), [name])
+            ComponentClass = getattr(module, name)
+            self.components.append(ComponentClass(name))
         for component in self.components:
-            self.robot.controller.addObserver(component)
-            pinNames = component.getPinNames()
-            pins = {}
-            for name in pinNames:
-                if name in self.robot.memory.config:
-                    pins[name] = self.robot.memory.config[name]
-            component.setPins(pins)
+            self.robot.controller.add_observer(component)
+            if "pins" in self.robot.memory.config["components"][component.name]:
+                component.on_pins_connect(self.robot.memory.config["components"][component.name]["pins"])

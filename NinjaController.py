@@ -5,36 +5,36 @@ from Utility.NinjaGetch import NinjaGetch
 # ----------------------------------------------------------------------------------------------------
 class NinjaController(object):
     def __init__(self, robot):
-        self.isRunning = True
+        self.is_running = True
         self.robot = robot
         self.getch = NinjaGetch();
         self.observers = [];
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):
-        while self.isRunning:
+        while self.is_running:
             char = self.getch()
             print("input", char)
             for observer in self.observers:
-                if observer is not None and hasattr(observer, 'onKeyInput') and hasattr(observer.onKeyInput, '__call__'):
-                    result = observer.onKeyInput(char)
+                if observer is not None and hasattr(observer, 'on_key_input') and hasattr(observer.on_key_input, '__call__'):
+                    result = observer.on_key_input(char)
                     if result:
                         break
             pass
         self.exit()
 
     def stop(self):
-        self.isRunning = False
+        self.is_running = False
 
     def exit(self):
         self.observers = []
 
     # ----------------------------------------------------------------------------------------------------
-    def addObserver(self, observer):
+    def add_observer(self, observer):
         if observer is not None:
             self.observers.append(observer)
 
-    def removeObserver(self, observer):
+    def remove_observer(self, observer):
         if observer is not None:
             self.observers.remove(observer)
 
