@@ -6,28 +6,22 @@ try: # Debug
 except:
     pass
 
-# Test
-from NinjaComponent.NinjaMotor import *
+from NinjaObject import *
 
 # ----------------------------------------------------------------------------------------------------
-class NinjaHeart(object):
+class NinjaHeart(NinjaObject):
     def __init__(self, robot):
-        self.is_running = True
+        super(NinjaHeart, self).__init__()
         self.robot = robot
-        self.components = []
+
         self.init()
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):
-        while self.is_running:
-            for component in self.components:
-                component.process()
-            time.sleep(0.1)
-            pass
-        self.exit()
-
-    def stop(self):
-        self.is_running = False
+        for component in self.components:
+            component.process()
+        time.sleep(0.1)
+        pass
 
     def exit(self):
         try:
@@ -49,11 +43,24 @@ class NinjaHeart(object):
             pass
 
         # components
-        for name in self.robot.memory.config["components"]:
-            module = __import__('NinjaComponent.' + name, globals(), locals(), [name])
-            ComponentClass = getattr(module, name)
-            self.components.append(ComponentClass(name))
-        for component in self.components:
-            self.robot.controller.add_observer(component)
-            if "pins" in self.robot.memory.config["components"][component.name]:
-                component.on_pins_connect(self.robot.memory.config["components"][component.name]["pins"])
+        self.components = []
+        if "components" in self.robot.memory.config:
+            for name in self.robot.memory.config["components"]:
+                module = __import__("NinjaComponent."+ name, globals(), locals(), [name])
+                ComponentClass = getattr(module, name)
+                self.components.append(ComponentClass(name))
+            for component in self.components:
+                self.robot.controller.add_observer(component)
+                if "pins" in self.robot.memory.config["components"][component.name]:
+                    component.on_pins_connect(self.robot.memory.config["components"][component.name]["pins"])
+
+        # services
+        self.services = []
+        if "services" in self.robot.memory.config:
+            for name in self.robot.memory.config["services"]:
+                module = __import__("NinjaService." + name + ".Server", globals(), locals(), ["Server"])
+                ServerClass = getattr(module, "Server")
+                self.services.append(ServerClass(name))
+            for server in self.services:
+                pass
+            pass

@@ -1,48 +1,39 @@
 # coding=utf-8
 
-import threading
-
+from NinjaObject import *
 from NinjaController import *
 from NinjaMemory import *
 from NinjaHeart import *
 
 # ----------------------------------------------------------------------------------------------------
-class NinjaRobot(object):
+class NinjaRobot(NinjaObject):
     def __init__(self):
-        self.is_running = True
+        super(NinjaRobot, self).__init__()
+
         self.controller = NinjaController(self)
-        self.controller_thread = threading.Thread(target=self.controller.process)
-        self.controller_thread.setDaemon(True)
         self.memory = NinjaMemory(self)
-        self.memory_thread = threading.Thread(target=self.memory.process)
-        self.memory_thread.setDaemon(True)
         self.heart = NinjaHeart(self)
-        self.heart_thread = threading.Thread(target=self.heart.process)
-        self.heart_thread.setDaemon(True)
 
         self.controller.add_observer(self)
         pass
 
     # ----------------------------------------------------------------------------------------------------
     def run(self):
-        self.controller_thread.start()
-        self.memory_thread.start()
-        self.heart_thread.start()
-        while self.is_running:
-            time.sleep(1)
-            pass
-        self.exit()
+        self.controller.start()
+        self.memory.start()
+        self.heart.start()
+        super(NinjaRobot, self).run()
 
-    def stop(self):
-        self.is_running = False
+    def process(self):
+        time.sleep(1)
 
     def exit(self):
         self.heart.stop()
-        self.heart_thread.join()
+        self.heart.join()
         self.memory.stop()
-        self.memory_thread.join()
+        self.memory.join()
         self.controller.stop()
-        self.controller_thread.join()
+        self.controller.join()
         print("exit")
 
     # ----------------------------------------------------------------------------------------------------
