@@ -15,8 +15,9 @@ class NinjaComponent(object):
         pass
 
     # ----------------------------------------------------------------------------------------------------
-    def on_pins_connect(self, pins):
-        self.pins.update(pins)
+    def on_configure(self, data):
+        if "pins" in data:
+            self.pins.update(data["pins"])
 
     # ----------------------------------------------------------------------------------------------------
     def on_key_input(self, char):

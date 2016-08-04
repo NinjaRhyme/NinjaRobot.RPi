@@ -10,15 +10,18 @@ import tornado.httputil
 import tornado.autoreload
 import threading
 
+from NinjaObject import *
 try:
     from .Handler.IndexHandler import IndexHandler
 except:
     from Handler.IndexHandler import IndexHandler
 
 # ----------------------------------------------------------------------------------------------------
-class Server(object):
+class Server(NinjaObject):
     def __init__(self, name):
+        super(Server, self).__init__()
         self.name = name
+
         self.port = 8080
         self.application = tornado.web.Application(
             [
@@ -31,15 +34,12 @@ class Server(object):
         )
 
     # ----------------------------------------------------------------------------------------------------
-    def start(self):
-        pass
-
     def run(self):
         self.application.listen(self.port)
         tornado.ioloop.IOLoop.instance().start() # current
         self.exit()
 
-    def process(self):
+    def process(self): # Trick, running in the other thread
         pass
 
     def stop(self):
@@ -47,3 +47,8 @@ class Server(object):
 
     def exit(self):
         pass
+
+    # ----------------------------------------------------------------------------------------------------
+    def on_configure(self, data):
+        if "port" in data:
+            self.port = data["port"]

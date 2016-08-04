@@ -17,6 +17,11 @@ class NinjaHeart(NinjaObject):
         self.init()
 
     # ----------------------------------------------------------------------------------------------------
+    def run(self):
+        for server in self.services:
+            server.start()
+        super(NinjaHeart, self).run()
+
     def process(self):
         for component in self.components:
             component.process()
@@ -51,8 +56,7 @@ class NinjaHeart(NinjaObject):
                 self.components.append(ComponentClass(name))
             for component in self.components:
                 self.robot.controller.add_observer(component)
-                if "pins" in self.robot.memory.config["components"][component.name]:
-                    component.on_pins_connect(self.robot.memory.config["components"][component.name]["pins"])
+                component.on_configure(self.robot.memory.config["components"][component.name])
 
         # services
         self.services = []
@@ -62,5 +66,5 @@ class NinjaHeart(NinjaObject):
                 ServerClass = getattr(module, "Server")
                 self.services.append(ServerClass(name))
             for server in self.services:
-                pass
+                server.on_configure(self.robot.memory.config["services"][server.name])
             pass

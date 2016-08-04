@@ -26,8 +26,8 @@ class NinjaCamera(NinjaComponent):
             self.swing_signal_pin.ChangeDutyCycle(self.swing_signal)
 
     # ----------------------------------------------------------------------------------------------------
-    def on_pins_connect(self, pins):
-        super(NinjaCamera, self).on_pins_connect(pins)
+    def on_configure(self, data):
+        super(NinjaCamera, self).on_configure(data)
         luffing_signal_pin = self.pins["camera_luffing_steering_signal_pin"]
         swing_signal_pin = self.pins["camera_swing_steering_signal_pin"]
         try:

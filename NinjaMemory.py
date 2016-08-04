@@ -35,6 +35,7 @@ class NinjaMemory(NinjaObject):
             # services
             "services" : {
                 "NinjaWebService" : {
+                    "port" : 8080,
                 }
             }
         }

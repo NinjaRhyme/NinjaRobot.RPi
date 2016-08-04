@@ -26,8 +26,8 @@ class NinjaSteering(NinjaComponent):
             self.signal_pin.stop()
 
     # ----------------------------------------------------------------------------------------------------
-    def on_pins_connect(self, pins):
-        super(NinjaSteering, self).on_pins_connect(pins)
+    def on_configure(self, data):
+        super(NinjaSteering, self).on_configure(data)
         signal_pin = self.pins["car_steering_signal_pin"]
         try:
             GPIO.setup(signal_pin, GPIO.OUT)

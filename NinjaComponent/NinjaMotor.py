@@ -32,8 +32,8 @@ class NinjaMotor(NinjaComponent):
             self.backward_signal_pin.stop()
 
     # ----------------------------------------------------------------------------------------------------
-    def on_pins_connect(self, pins):
-        super(NinjaMotor, self).on_pins_connect(pins)
+    def on_configure(self, data):
+        super(NinjaMotor, self).on_configure(data)
         forward_signal_pin = self.pins["car_motor_forward_signal_pin"]
         backward_signal_pin = self.pins["car_motor_backward_signal_pin"]
         try:
