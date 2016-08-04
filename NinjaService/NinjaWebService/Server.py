@@ -11,10 +11,8 @@ import tornado.autoreload
 import threading
 
 from NinjaObject import *
-try:
-    from .Handler.IndexHandler import IndexHandler
-except:
-    from Handler.IndexHandler import IndexHandler
+from .Handler.IndexHandler import IndexHandler
+from .Handler.InputHandler import InputHandler
 
 # ----------------------------------------------------------------------------------------------------
 class Server(NinjaObject):
@@ -26,12 +24,14 @@ class Server(NinjaObject):
         self.application = tornado.web.Application(
             [
                 (r"/", IndexHandler),
+                (r"/input", InputHandler, dict(server=self)),
                 (r"/(.*)", tornado.web.StaticFileHandler, dict(path=os.path.join(os.path.dirname(__file__), "Static"))),
             ],
             template_path=os.path.join(os.path.dirname(__file__), "Template"),
             cookie_secret=base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),
             login_url=r"/", # Todo
         )
+        self.observers = []
 
     # ----------------------------------------------------------------------------------------------------
     def run(self):
@@ -46,9 +46,28 @@ class Server(NinjaObject):
         tornado.ioloop.IOLoop.instance().stop()
 
     def exit(self):
-        pass
+        self.observers = []
+
+    # ----------------------------------------------------------------------------------------------------
+    def add_observer(self, observer):
+        if observer is not None:
+            self.observers.append(observer)
+
+    def remove_observer(self, observer):
+        if observer is not None:
+            self.observers.remove(observer)
 
     # ----------------------------------------------------------------------------------------------------
     def on_configure(self, data):
         if "port" in data:
             self.port = data["port"]
+
+    # ----------------------------------------------------------------------------------------------------
+    def on_web_key_input(self, data):
+        if "key" in data:
+            print("input", data["key"])
+            for observer in self.observers:
+                if observer is not None and hasattr(observer, 'on_web_key_input') and hasattr(observer.on_web_key_input, '__call__'):
+                    result = observer.on_web_key_input(char)
+                    if result:
+                        break
