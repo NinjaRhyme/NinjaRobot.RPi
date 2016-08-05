@@ -9,7 +9,8 @@ class NinjaController(NinjaObject):
         super(NinjaController, self).__init__()
         self.robot = robot
 
-        self.getch = NinjaGetch();
+        self.getch = NinjaGetch(); # Todo: keyboard controller
+        self.sources = [];
         self.observers = [];
 
     # ----------------------------------------------------------------------------------------------------
@@ -24,15 +25,36 @@ class NinjaController(NinjaObject):
         pass
 
     def exit(self):
-        self.observers = []
+        self.clear_observer()
 
     # ----------------------------------------------------------------------------------------------------
+    def add_source(self, source):
+        if source is not None:
+            self.sources.append(source)
+            for observer in self.observers:
+                source.add_observer(observer)
+
+    def remove_source(self, source):
+        if source is not None:
+            self.sources.remove(source)
+            source.clear_observer()
+
+    def clear_source(self):
+        self.sources = []
+
     def add_observer(self, observer):
         if observer is not None:
             self.observers.append(observer)
+            for source in self.sources:
+                source.add_observer(observer)
 
     def remove_observer(self, observer):
         if observer is not None:
             self.observers.remove(observer)
+            for source in self.sources:
+                source.remove_observer(observer)
+
+    def clear_observer(self):
+        self.observers = []
 
     # ----------------------------------------------------------------------------------------------------

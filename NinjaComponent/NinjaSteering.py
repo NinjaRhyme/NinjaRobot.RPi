@@ -55,3 +55,22 @@ class NinjaSteering(NinjaComponent):
             return False
         self.is_need_update = True
         return True
+
+    # ----------------------------------------------------------------------------------------------------
+    def on_web_key_input(self, key):
+        if key == ord('A'):
+            if 6 < self.signal:
+                self.signal -= 0.4
+                if self.signal < 6:
+                    self.signal = 6
+            print("left", self.signal)
+        elif key == ord('D'):
+            if self.signal < 8:
+                self.signal += 0.4
+                if 8 < self.signal:
+                    self.signal = 8
+            print("right", self.signal)
+        else:
+            return False
+        self.is_need_update = True
+        return True

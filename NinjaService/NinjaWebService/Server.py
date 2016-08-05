@@ -20,6 +20,7 @@ class Server(NinjaObject):
         super(Server, self).__init__()
         self.name = name
 
+        print(os.system("webpack --config " + os.path.join(os.path.dirname(__file__), "webpack.config.js")))
         self.port = 8080
         self.application = tornado.web.Application(
             [
@@ -46,7 +47,7 @@ class Server(NinjaObject):
         tornado.ioloop.IOLoop.instance().stop()
 
     def exit(self):
-        self.observers = []
+        self.clear_observer()
 
     # ----------------------------------------------------------------------------------------------------
     def add_observer(self, observer):
@@ -57,17 +58,21 @@ class Server(NinjaObject):
         if observer is not None:
             self.observers.remove(observer)
 
+    def clear_observer(self):
+        self.observers = []
+
     # ----------------------------------------------------------------------------------------------------
     def on_configure(self, data):
         if "port" in data:
             self.port = data["port"]
 
     # ----------------------------------------------------------------------------------------------------
-    def on_web_key_input(self, data):
+    def on_input_handle_event(self, data):
         if "key" in data:
-            print("input", data["key"])
+            key = data["key"]
+            print("input", key)
             for observer in self.observers:
                 if observer is not None and hasattr(observer, 'on_web_key_input') and hasattr(observer.on_web_key_input, '__call__'):
-                    result = observer.on_web_key_input(char)
+                    result = observer.on_web_key_input(key)
                     if result:
                         break

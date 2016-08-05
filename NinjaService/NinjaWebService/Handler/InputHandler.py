@@ -23,7 +23,7 @@ class InputHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, message):
         data = json.loads(message)
         if data is not None and self.server is not None:
-            self.server.on_web_input(data)
+            self.server.on_input_handle_event(data)
 
     def on_close(self):
         InputHandler.clients.remove(self)
