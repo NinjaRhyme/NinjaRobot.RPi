@@ -1,3 +1,4 @@
+
 export class InputView extends React.Component {
   constructor(props) {
     super(props);
