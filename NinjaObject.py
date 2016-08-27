@@ -11,22 +11,22 @@ class NinjaObject(object):
         pass
 
     # ----------------------------------------------------------------------------------------------------
-    def start(self):
+    def start(self): # async
         self.thread.start()
 
-    def join(self):
+    def join(self): # async -> sync
         self.thread.join()
 
-    def run(self):
+    def run(self): # sync
         while self.is_running:
             self.process()
         self.exit()
 
-    def process(self):
+    def process(self): # once
         pass
 
-    def stop(self):
+    def stop(self): # (async & sync) -> stop
         self.is_running = False
 
-    def exit(self):
+    def exit(self): # callback
         pass

@@ -9,7 +9,7 @@ class NinjaController(NinjaObject):
         super(NinjaController, self).__init__()
         self.robot = robot
 
-        self.getch = NinjaGetch(); # Todo: keyboard controller
+        self.getch = NinjaGetch(); # Todo: keyboard controller -> Heart
         self.sources = [];
         self.observers = [];
 

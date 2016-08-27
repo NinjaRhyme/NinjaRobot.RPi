@@ -14,6 +14,8 @@ class NinjaHeart(NinjaObject):
         super(NinjaHeart, self).__init__()
         self.robot = robot
 
+        self.components = []
+        self.services = []
         self.init()
 
     # ----------------------------------------------------------------------------------------------------
@@ -48,7 +50,6 @@ class NinjaHeart(NinjaObject):
             pass
 
         # components
-        self.components = []
         if "components" in self.robot.memory.config:
             components = self.robot.memory.config["components"]
             for name in components:
@@ -60,7 +61,6 @@ class NinjaHeart(NinjaObject):
                 component.on_configure(components[component.name])
 
         # services
-        self.services = []
         if "services" in self.robot.memory.config:
             services = self.robot.memory.config["services"]
             for name in services:
