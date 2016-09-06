@@ -72,7 +72,7 @@ class Server(NinjaObject):
             key = data["key"]
             print("input", key)
             for observer in self.observers:
-                if observer is not None and hasattr(observer, 'on_web_key_input') and hasattr(observer.on_web_key_input, '__call__'):
-                    result = observer.on_web_key_input(key)
+                if observer is not None and hasattr(observer, 'on_web_key_click') and hasattr(observer.on_web_key_click, '__call__'):
+                    result = observer.on_web_key_click(key)
                     if result:
                         break

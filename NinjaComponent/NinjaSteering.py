@@ -57,7 +57,7 @@ class NinjaSteering(NinjaComponent):
         return True
 
     # ----------------------------------------------------------------------------------------------------
-    def on_web_key_input(self, key):
+    def on_web_key_click(self, key):
         if key == ord('A'):
             if 6 < self.signal:
                 self.signal -= 0.4

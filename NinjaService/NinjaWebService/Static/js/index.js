@@ -1,4 +1,3 @@
+import { MainView } from './main.js'
 
-import { InputView } from './input.js'
-
-ReactDOM.render(<InputView/>, document.getElementById('content'));
+ReactDOM.render(<MainView/>, document.getElementById('content'));
