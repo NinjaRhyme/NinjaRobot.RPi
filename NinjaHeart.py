@@ -20,11 +20,13 @@ class NinjaHeart(NinjaObject):
 
     # ----------------------------------------------------------------------------------------------------
     def run(self):
+		# start services
         for server in self.services:
             server.start()
         super(NinjaHeart, self).run()
 
     def process(self):
+		# process components
         for component in self.components:
             component.process()
         time.sleep(0.01)

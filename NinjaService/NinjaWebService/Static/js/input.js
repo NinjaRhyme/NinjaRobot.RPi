@@ -3,7 +3,7 @@ export class InputView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ws : new WebSocket("ws://" + location.host + "/input")
+      ws: new WebSocket("ws://" + location.host + "/input")
     };
     this.state.ws.onopen = function(event) {
         console.log("ws connected");
@@ -21,6 +21,8 @@ export class InputView extends React.Component {
   }
   handleKeyDown(event) {
       event.preventDefault();
+      let {ws} = this.state;
+
       ws.send(JSON.stringify({
           "key": event.keyCode
       }))

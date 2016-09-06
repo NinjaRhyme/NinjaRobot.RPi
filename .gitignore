@@ -1,4 +1,8 @@
-*.pyc
-__pycache__
 node_modules
 Build
+
+*.pyc
+__pycache__
+
+.vs
+*.pyproj

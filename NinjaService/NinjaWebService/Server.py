@@ -70,6 +70,7 @@ class Server(NinjaObject):
     def on_input_handle_event(self, data):
         if "key" in data:
             key = data["key"]
+            print(data["key"])
             print("input", key)
             for observer in self.observers:
                 if observer is not None and hasattr(observer, 'on_web_key_click') and hasattr(observer.on_web_key_click, '__call__'):

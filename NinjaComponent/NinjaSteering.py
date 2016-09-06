@@ -38,7 +38,7 @@ class NinjaSteering(NinjaComponent):
             pass
 
     # ----------------------------------------------------------------------------------------------------
-    def on_key_input(self, char):
+    def control(self, char):
         if char == 'a':
             if 6 < self.signal:
                 self.signal -= 0.4
@@ -57,20 +57,9 @@ class NinjaSteering(NinjaComponent):
         return True
 
     # ----------------------------------------------------------------------------------------------------
+    def on_key_input(self, char):
+        return self.control(char.lower())
+
+    # ----------------------------------------------------------------------------------------------------
     def on_web_key_click(self, key):
-        if key == ord('A'):
-            if 6 < self.signal:
-                self.signal -= 0.4
-                if self.signal < 6:
-                    self.signal = 6
-            print("left", self.signal)
-        elif key == ord('D'):
-            if self.signal < 8:
-                self.signal += 0.4
-                if 8 < self.signal:
-                    self.signal = 8
-            print("right", self.signal)
-        else:
-            return False
-        self.is_need_update = True
-        return True
+        return self.control(chr(key).lower())
