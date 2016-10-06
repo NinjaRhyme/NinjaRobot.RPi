@@ -3,15 +3,16 @@
 from NinjaObject import *
 from Utility.NinjaGetch import NinjaGetch
 
+# event: on_key_input (Todo, keyboard controller -> Heart)
 # ----------------------------------------------------------------------------------------------------
 class NinjaController(NinjaObject):
     def __init__(self, robot):
         super(NinjaController, self).__init__()
         self.robot = robot
 
-        self.getch = NinjaGetch(); # Todo: keyboard controller -> Heart
-        self.sources = [];
-        self.observers = [];
+        self.getch = NinjaGetch()
+        self.sources = []
+        self.observers = []
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):

@@ -15,6 +15,7 @@ from .Handler.IndexHandler import IndexHandler
 from .Handler.InputHandler import InputHandler
 from .Handler.CameraHandler import CameraHandler
 
+# event: on_web_key_click & on_web_camera_connect
 # ----------------------------------------------------------------------------------------------------
 class Server(NinjaObject):
     def __init__(self, name):
@@ -73,3 +74,7 @@ class Server(NinjaObject):
                 result = observer.on_web_camera_connect()
                 if result:
                     return result
+
+    def on_camera_output(self, buff):
+        CameraHandler.broadcast(buff)
+        pass

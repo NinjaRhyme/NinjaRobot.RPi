@@ -29,7 +29,8 @@ class NinjaMemory(NinjaObject):
                     "pins" : {
                         "camera_luffing_steering_signal_pin" : 26,
                         "camera_swing_steering_signal_pin" : 13
-                    }
+                    },
+                    "source_for_controller" : True
                 }
             },
             # services

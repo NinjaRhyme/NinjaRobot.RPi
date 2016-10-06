@@ -10,6 +10,7 @@ from struct import Struct
 from subprocess import Popen, PIPE
 from .NinjaComponent import *
 
+# event: on_camera_output
 # ----------------------------------------------------------------------------------------------------
 class NinjaCamera(NinjaComponent):
     def __init__(self, name):
@@ -25,11 +26,11 @@ class NinjaCamera(NinjaComponent):
         self.JSMPEG_MAGIC = b'jsmp'
         self.JSMPEG_HEADER = Struct('>4sHH')
         self.camera = picamera.PiCamera()
-        camera.resolution = (self.width, self.height)
-        camera.framerate = self.framerate
+        self.camera.resolution = (self.width, self.height)
+        self.camera.framerate = self.framerate
         sleep(1) # camera warm-up time
         self.output = CameraOutput(self.camera)
-        camera.start_recording(self.output, 'yuv') # record
+        self.camera.start_recording(self.output, 'yuv') # record
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):
@@ -42,7 +43,9 @@ class NinjaCamera(NinjaComponent):
         self.camera.wait_recording(1)
         buf = self.output.converter.stdout.read(512)
         if buf:
-            # self.websocket_server.manager.broadcast(buf, binary=True)
+            for observer in self.observers:
+                if observer is not None and hasattr(observer, 'on_camera_output') and hasattr(observer.on_camera_output, '__call__'):
+                    result = observer.on_camera_output(buf)
             pass
         elif self.converter.poll() is not None:
             pass
