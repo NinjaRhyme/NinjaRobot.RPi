@@ -29,6 +29,7 @@ class CameraHandler(tornado.websocket.WebSocketHandler):
         CameraHandler.clients.remove(self)
 
     # ----------------------------------------------------------------------------------------------------
+    @classmethod
     def broadcast(buff):
         for client in clients:
             client.write_message(buff)

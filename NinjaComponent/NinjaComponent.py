@@ -5,6 +5,7 @@ from NinjaObject import *
 # ----------------------------------------------------------------------------------------------------
 class NinjaComponent(NinjaObject):
     def __init__(self, name):
+        super(NinjaComponent, self).__init__()
         self.name = name
         self.pins = {}
         pass

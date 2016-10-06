@@ -62,7 +62,7 @@ class NinjaHeart(NinjaObject):
                 self.robot.controller.add_observer(component)
                 component.on_configure(components[component.name])
                 if "source_for_controller" in components[component.name] and components[component.name]["source_for_controller"]:
-                    self.robot.controller.add_source(server)
+                    self.robot.controller.add_source(component)
             pass
 
         # services

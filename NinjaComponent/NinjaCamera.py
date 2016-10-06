@@ -1,5 +1,9 @@
 # coding=utf-8
 
+import sys
+import io
+import os
+import time
 try:
     import RPi.GPIO as GPIO
     import picamera
@@ -28,7 +32,7 @@ class NinjaCamera(NinjaComponent):
         self.camera = picamera.PiCamera()
         self.camera.resolution = (self.width, self.height)
         self.camera.framerate = self.framerate
-        sleep(1) # camera warm-up time
+        time.sleep(1) # camera warm-up time
         self.output = CameraOutput(self.camera)
         self.camera.start_recording(self.output, 'yuv') # record
 
