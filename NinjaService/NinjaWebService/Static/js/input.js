@@ -6,7 +6,7 @@ export class InputView extends React.Component {
       ws: new WebSocket("ws://" + location.host + "/input")
     };
     this.state.ws.onopen = function(event) {
-        console.log("ws connected");
+        console.log("input ws connected");
     };
     this.state.ws.onmessage = function(event) {
         var data = JSON.parse(event.data);

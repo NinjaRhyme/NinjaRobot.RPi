@@ -5,4 +5,5 @@ Build
 __pycache__
 
 .vs
+*.sln
 *.pyproj

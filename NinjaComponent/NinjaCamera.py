@@ -2,28 +2,50 @@
 
 try:
     import RPi.GPIO as GPIO
+    import picamera
 except:
     pass
 
+from struct import Struct
+from subprocess import Popen, PIPE
 from .NinjaComponent import *
 
 # ----------------------------------------------------------------------------------------------------
 class NinjaCamera(NinjaComponent):
     def __init__(self, name):
         super(NinjaCamera, self).__init__(name)
-        self.width = 640
-        self.height = 480
-        self.framerate = 24
+        # steering
         self.is_need_update = False
         self.luffing_signal = 7.5
         self.swing_signal = 7.5
+        # camera
+        self.width = 640
+        self.height = 480
+        self.framerate = 24
+        self.JSMPEG_MAGIC = b'jsmp'
+        self.JSMPEG_HEADER = Struct('>4sHH')
+        self.camera = picamera.PiCamera()
+        camera.resolution = (self.width, self.height)
+        camera.framerate = self.framerate
+        sleep(1) # camera warm-up time
+        self.output = CameraOutput(self.camera)
+        camera.start_recording(self.output, 'yuv') # record
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):
+        # steering
         if self.is_need_update:
             self.is_need_update = False
             self.luffing_signal_pin.ChangeDutyCycle(self.luffing_signal)
             self.swing_signal_pin.ChangeDutyCycle(self.swing_signal)
+        # camera
+        self.camera.wait_recording(1)
+        buf = self.output.converter.stdout.read(512)
+        if buf:
+            # self.websocket_server.manager.broadcast(buf, binary=True)
+            pass
+        elif self.converter.poll() is not None:
+            pass
 
     # ----------------------------------------------------------------------------------------------------
     def on_configure(self, data):
@@ -72,3 +94,32 @@ class NinjaCamera(NinjaComponent):
             return False
         self.is_need_update = True
         return True
+
+    def on_web_camera_connect(self):
+        return self.JSMPEG_HEADER.pack(self.JSMPEG_MAGIC, self.width, self.height)
+
+# ----------------------------------------------------------------------------------------------------
+class CameraOutput(object):
+    def __init__(self, camera):
+        print('Spawning background conversion process')
+        self.converter = Popen([
+            'avconv',
+            '-f', 'rawvideo',
+            '-pix_fmt', 'yuv420p',
+            '-s', '%dx%d' % camera.resolution,
+            '-r', str(float(camera.framerate)),
+            '-i', '-',
+            '-f', 'mpeg1video',
+            '-b', '800k',
+            '-r', str(float(camera.framerate)),
+            '-'],
+            stdin=PIPE, stdout=PIPE, stderr=io.open(os.devnull, 'wb'),
+            shell=False, close_fds=True)
+
+    def write(self, b):
+        self.converter.stdin.write(b)
+
+    def flush(self):
+        print('Waiting for background conversion process to exit')
+        self.converter.stdin.close()
+        self.converter.wait()

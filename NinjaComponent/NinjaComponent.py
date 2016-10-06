@@ -1,17 +1,12 @@
 # coding=utf-8
 
+from NinjaObject import *
+
 # ----------------------------------------------------------------------------------------------------
-class NinjaComponent(object):
+class NinjaComponent(NinjaObject):
     def __init__(self, name):
         self.name = name
         self.pins = {}
-        pass
-
-    # ----------------------------------------------------------------------------------------------------
-    def process(self):
-        pass
-
-    def exit(self):
         pass
 
     # ----------------------------------------------------------------------------------------------------

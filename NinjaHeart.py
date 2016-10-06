@@ -61,6 +61,9 @@ class NinjaHeart(NinjaObject):
             for component in self.components:
                 self.robot.controller.add_observer(component)
                 component.on_configure(components[component.name])
+                if "source_for_controller" in components[component.name] and components[component.name]["source_for_controller"]:
+                    self.robot.controller.add_source(server)
+            pass
 
         # services
         if "services" in self.robot.memory.config:
@@ -70,8 +73,8 @@ class NinjaHeart(NinjaObject):
                 ServerClass = getattr(module, "Server")
                 self.services.append(ServerClass(name))
             for server in self.services:
+                self.robot.controller.add_observer(server)
                 server.on_configure(services[server.name])
-                if "source_for_controller" in services[server.name]:
-                    if services[server.name]["source_for_controller"]:
-                        self.robot.controller.add_source(server)
+                if "source_for_controller" in services[server.name] and services[server.name]["source_for_controller"]:
+                    self.robot.controller.add_source(server)
             pass

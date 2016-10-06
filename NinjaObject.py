@@ -5,9 +5,12 @@ import threading
 # ----------------------------------------------------------------------------------------------------
 class NinjaObject(object):
     def __init__(self):
+        # state
         self.is_running = True
         self.thread = threading.Thread(target=self.run)
         self.thread.setDaemon(True)
+        # observer
+        self.observers = []
         pass
 
     # ----------------------------------------------------------------------------------------------------
@@ -30,3 +33,15 @@ class NinjaObject(object):
 
     def exit(self): # callback
         pass
+
+    # ----------------------------------------------------------------------------------------------------
+    def add_observer(self, observer):
+        if observer is not None:
+            self.observers.append(observer)
+
+    def remove_observer(self, observer):
+        if observer is not None:
+            self.observers.remove(observer)
+
+    def clear_observer(self):
+        self.observers = []

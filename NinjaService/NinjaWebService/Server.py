@@ -13,6 +13,7 @@ import threading
 from NinjaObject import *
 from .Handler.IndexHandler import IndexHandler
 from .Handler.InputHandler import InputHandler
+from .Handler.CameraHandler import CameraHandler
 
 # ----------------------------------------------------------------------------------------------------
 class Server(NinjaObject):
@@ -26,13 +27,13 @@ class Server(NinjaObject):
             [
                 (r"/", IndexHandler),
                 (r"/input", InputHandler, dict(server=self)),
+                (r"/camera", CameraHandler, dict(server=self)),
                 (r"/(.*)", tornado.web.StaticFileHandler, dict(path=os.path.join(os.path.dirname(__file__), "Static"))),
             ],
             template_path=os.path.join(os.path.dirname(__file__), "Template"),
             cookie_secret=base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes),
             login_url=r"/", # Todo
         )
-        self.observers = []
 
     # ----------------------------------------------------------------------------------------------------
     def run(self):
@@ -50,18 +51,6 @@ class Server(NinjaObject):
         self.clear_observer()
 
     # ----------------------------------------------------------------------------------------------------
-    def add_observer(self, observer):
-        if observer is not None:
-            self.observers.append(observer)
-
-    def remove_observer(self, observer):
-        if observer is not None:
-            self.observers.remove(observer)
-
-    def clear_observer(self):
-        self.observers = []
-
-    # ----------------------------------------------------------------------------------------------------
     def on_configure(self, data):
         if "port" in data:
             self.port = data["port"]
@@ -77,3 +66,10 @@ class Server(NinjaObject):
                     result = observer.on_web_key_click(key)
                     if result:
                         break
+
+    def on_camera_handle_connect_event(self):
+        for observer in self.observers:
+            if observer is not None and hasattr(observer, 'on_web_camera_connect') and hasattr(observer.on_web_camera_connect, '__call__'):
+                result = observer.on_web_camera_connect()
+                if result:
+                    return result
