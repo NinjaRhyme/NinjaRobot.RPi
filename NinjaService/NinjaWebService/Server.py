@@ -75,6 +75,6 @@ class Server(NinjaObject):
                 if result:
                     return result
 
-    def on_camera_output(self, buff):
-        CameraHandler.broadcast(buff)
+    def on_camera_output(self, buf):
+        CameraHandler.broadcast(buf)
         pass

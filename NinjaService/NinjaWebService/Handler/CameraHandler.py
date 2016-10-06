@@ -14,7 +14,7 @@ class CameraHandler(tornado.websocket.WebSocketHandler):
 
     def open(self):
         if self.server is not None:
-            self.write_message(self.server.on_camera_handle_connect_event())
+            self.write_message(self.server.on_camera_handle_connect_event(), binary=True)
         CameraHandler.clients.append(self)
         self.set_nodelay(True)
         pass
@@ -29,8 +29,8 @@ class CameraHandler(tornado.websocket.WebSocketHandler):
         CameraHandler.clients.remove(self)
 
     # ----------------------------------------------------------------------------------------------------
-    @classmethod
-    def broadcast(buff):
-        for client in clients:
-            client.write_message(buff)
+    @staticmethod
+    def broadcast(buf):
+        for client in CameraHandler.clients:
+            client.write_message(buf, binary=True)
         pass
