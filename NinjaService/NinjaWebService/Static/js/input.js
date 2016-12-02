@@ -36,7 +36,7 @@ export class InputView extends React.Component {
   render() {
     return (
       <div className="input_view">
-        xixixi
+        －－－－－
       </div>
     );
   }

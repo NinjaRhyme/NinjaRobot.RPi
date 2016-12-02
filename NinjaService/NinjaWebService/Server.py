@@ -22,7 +22,7 @@ class Server(NinjaObject):
         super(Server, self).__init__()
         self.name = name
 
-        print(os.system("webpack --config " + os.path.join(os.path.dirname(__file__), "webpack.config.js")))
+        #print(os.system("webpack --config " + os.path.join(os.path.dirname(__file__), "webpack.config.js")))
         self.port = 8080
         self.application = tornado.web.Application(
             [

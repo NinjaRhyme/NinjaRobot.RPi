@@ -49,7 +49,7 @@ class NinjaMotor(NinjaComponent):
             pass
 
     # ----------------------------------------------------------------------------------------------------
-    def on_key_input(self, char):
+    def control(self, char):
         if char == 'w':
             self.forward_signal += 15
             if 100 < self.forward_signal:
@@ -74,3 +74,11 @@ class NinjaMotor(NinjaComponent):
             return False
         self.is_need_update = True
         return True
+
+    # ----------------------------------------------------------------------------------------------------
+    def on_key_input(self, char):
+        return self.control(char.lower())
+
+    # ----------------------------------------------------------------------------------------------------
+    def on_web_key_click(self, key):
+        return self.control(chr(key).lower())

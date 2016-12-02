@@ -24,17 +24,21 @@ class NinjaCamera(NinjaComponent):
         self.luffing_signal = 7.5
         self.swing_signal = 7.5
         # camera
-        self.width = 640
-        self.height = 480
-        self.framerate = 24
-        self.JSMPEG_MAGIC = b'jsmp'
-        self.JSMPEG_HEADER = Struct('>4sHH')
-        self.camera = picamera.PiCamera()
-        self.camera.resolution = (self.width, self.height)
-        self.camera.framerate = self.framerate
-        time.sleep(1) # camera warm-up time
-        self.output = CameraOutput(self.camera)
-        self.camera.start_recording(self.output, 'yuv') # record
+        try:
+            self.width = 640
+            self.height = 480
+            self.framerate = 24
+            self.JSMPEG_MAGIC = b'jsmp'
+            self.JSMPEG_HEADER = Struct('>4sHH')
+            self.camera = picamera.PiCamera()
+            self.camera.resolution = (self.width, self.height)
+            self.camera.framerate = self.framerate
+            time.sleep(1) # camera warm-up time
+            self.output = CameraOutput(self.camera)
+            self.camera.start_recording(self.output, 'yuv') # record
+        except:
+            print 'Camera error'
+            pass
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):
@@ -44,15 +48,16 @@ class NinjaCamera(NinjaComponent):
             self.luffing_signal_pin.ChangeDutyCycle(self.luffing_signal)
             self.swing_signal_pin.ChangeDutyCycle(self.swing_signal)
         # camera
-        self.camera.wait_recording(1)
-        buf = self.output.converter.stdout.read(512)
-        if buf:
-            for observer in self.observers:
-                if observer is not None and hasattr(observer, 'on_camera_output') and hasattr(observer.on_camera_output, '__call__'):
-                    result = observer.on_camera_output(buf)
-            pass
-        elif self.converter.poll() is not None:
-            pass
+        if self.camera:
+            self.camera.wait_recording(1)
+            buf = self.output.converter.stdout.read(512)
+            if buf:
+                for observer in self.observers:
+                    if observer is not None and hasattr(observer, 'on_camera_output') and hasattr(observer.on_camera_output, '__call__'):
+                        result = observer.on_camera_output(buf)
+                pass
+            elif self.converter.poll() is not None:
+                pass
 
     # ----------------------------------------------------------------------------------------------------
     def on_configure(self, data):
@@ -72,7 +77,7 @@ class NinjaCamera(NinjaComponent):
             pass
 
     # ----------------------------------------------------------------------------------------------------
-    def on_key_input(self, char):
+    def control(self, char):
         if char == 'i':
             if 6 < self.luffing_signal:
                 self.luffing_signal -= 0.1
@@ -102,6 +107,15 @@ class NinjaCamera(NinjaComponent):
         self.is_need_update = True
         return True
 
+    # ----------------------------------------------------------------------------------------------------
+    def on_key_input(self, char):
+        return self.control(char.lower())
+
+    # ----------------------------------------------------------------------------------------------------
+    def on_web_key_click(self, key):
+        return self.control(chr(key).lower())
+
+    # ----------------------------------------------------------------------------------------------------
     def on_web_camera_connect(self):
         return self.JSMPEG_HEADER.pack(self.JSMPEG_MAGIC, self.width, self.height)
 

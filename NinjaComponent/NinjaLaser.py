@@ -38,7 +38,7 @@ class NinjaLaser(NinjaComponent):
             pass
 
     # ----------------------------------------------------------------------------------------------------
-    def on_key_input(self, char):
+    def control(self, char):
         if char == 'q':
             if 50 < self.signal:
                 self.signal = 0
@@ -50,3 +50,11 @@ class NinjaLaser(NinjaComponent):
             return False
         self.is_need_update = True
         return True
+
+    # ----------------------------------------------------------------------------------------------------
+    def on_key_input(self, char):
+        return self.control(char.lower())
+
+    # ----------------------------------------------------------------------------------------------------
+    def on_web_key_click(self, key):
+        return self.control(chr(key).lower())
