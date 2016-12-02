@@ -51,18 +51,18 @@ class NinjaMotor(NinjaComponent):
     # ----------------------------------------------------------------------------------------------------
     def control(self, char):
         if char == 'w':
-            self.forward_signal += 15
+            self.forward_signal += 10
             if 100 < self.forward_signal:
                 self.forward_signal = 100
-            self.backward_signal -= 15
+            self.backward_signal -= 10
             if self.backward_signal < 0:
                 self.backward_signal = 0
             print("forward", self.forward_signal, self.backward_signal)
         elif char == 's':
-            self.forward_signal -= 15
+            self.forward_signal -= 10
             if self.forward_signal < 0:
                 self.forward_signal = 0
-            self.backward_signal += 15
+            self.backward_signal += 10
             if 100 < self.backward_signal:
                 self.backward_signal = 100
             print("backward", self.forward_signal, self.backward_signal)

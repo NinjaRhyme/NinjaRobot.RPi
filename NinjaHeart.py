@@ -29,7 +29,7 @@ class NinjaHeart(NinjaObject):
 		# process components
         for component in self.components:
             component.process()
-        # time.sleep(0.001)
+        time.sleep(0.05)
         pass
 
     def exit(self):
