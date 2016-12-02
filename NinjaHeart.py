@@ -29,7 +29,7 @@ class NinjaHeart(NinjaObject):
 		# process components
         for component in self.components:
             component.process()
-        time.sleep(0.01)
+        # time.sleep(0.001)
         pass
 
     def exit(self):
@@ -55,7 +55,7 @@ class NinjaHeart(NinjaObject):
         if "components" in self.robot.memory.config:
             components = self.robot.memory.config["components"]
             for name in components:
-                module = __import__("NinjaComponent."+ name, globals(), locals(), [name])
+                module = __import__("NinjaComponent." + name, globals(), locals(), [name])
                 ComponentClass = getattr(module, name)
                 self.components.append(ComponentClass(name))
             for component in self.components:

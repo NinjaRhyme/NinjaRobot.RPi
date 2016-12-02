@@ -41,13 +41,13 @@ class NinjaSteering(NinjaComponent):
     def control(self, char):
         if char == 'a':
             if 6 < self.signal:
-                self.signal -= 0.4
+                self.signal -= 0.1
                 if self.signal < 6:
                     self.signal = 6
             print("left", self.signal)
         elif char == 'd':
             if self.signal < 8:
-                self.signal += 0.4
+                self.signal += 0.1
                 if 8 < self.signal:
                     self.signal = 8
             print("right", self.signal)

@@ -75,25 +75,25 @@ class NinjaCamera(NinjaComponent):
     def on_key_input(self, char):
         if char == 'i':
             if 6 < self.luffing_signal:
-                self.luffing_signal -= 0.4
+                self.luffing_signal -= 0.1
                 if self.luffing_signal < 6:
                     self.luffing_signal = 6
             print("camera up", self.luffing_signal)
         elif char == 'k':
             if self.luffing_signal < 8:
-                self.luffing_signal += 0.4
+                self.luffing_signal += 0.1
                 if 8 < self.luffing_signal:
                     self.luffing_signal = 8
             print("camera down", self.luffing_signal)
         elif char == 'l':
             if 6 < self.swing_signal:
-                self.swing_signal -= 0.4
+                self.swing_signal -= 0.1
                 if self.swing_signal < 6:
                     self.swing_signal = 6
             print("camera left", self.swing_signal)
         elif char == 'j':
             if self.swing_signal < 8:
-                self.swing_signal += 0.4
+                self.swing_signal += 0.1
                 if 8 < self.swing_signal:
                     self.swing_signal = 8
             print("camera right", self.swing_signal)
