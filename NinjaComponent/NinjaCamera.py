@@ -21,8 +21,8 @@ class NinjaCamera(NinjaComponent):
         super(NinjaCamera, self).__init__(name)
         # steering
         self.is_need_update = False
-        self.luffing_signal = 7.5
-        self.swing_signal = 7.5
+        self.luffing_signal = 10
+        self.swing_signal = 6
         self.camera = None
         # camera
         # try:
@@ -80,22 +80,22 @@ class NinjaCamera(NinjaComponent):
     # ----------------------------------------------------------------------------------------------------
     def control(self, char):
         if char == 'i':
-            if 6 < self.luffing_signal:
+            if 8 < self.luffing_signal:
                 self.luffing_signal -= 0.1
-                if self.luffing_signal < 6:
-                    self.luffing_signal = 6
+                if self.luffing_signal < 8:
+                    self.luffing_signal = 8
             print("camera up", self.luffing_signal)
         elif char == 'k':
-            if self.luffing_signal < 8:
+            if self.luffing_signal < 12:
                 self.luffing_signal += 0.1
-                if 8 < self.luffing_signal:
-                    self.luffing_signal = 8
+                if 12 < self.luffing_signal:
+                    self.luffing_signal = 12
             print("camera down", self.luffing_signal)
         elif char == 'l':
-            if 6 < self.swing_signal:
+            if 4 < self.swing_signal:
                 self.swing_signal -= 0.1
-                if self.swing_signal < 6:
-                    self.swing_signal = 6
+                if self.swing_signal < 4:
+                    self.swing_signal = 4
             print("camera left", self.swing_signal)
         elif char == 'j':
             if self.swing_signal < 8:
