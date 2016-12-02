@@ -28,7 +28,7 @@ class Server(NinjaObject):
             [
                 (r"/", IndexHandler),
                 (r"/input", InputHandler, dict(server=self)),
-                (r"/camera", CameraHandler, dict(server=self)),
+                # (r"/camera", CameraHandler, dict(server=self)),
                 (r"/(.*)", tornado.web.StaticFileHandler, dict(path=os.path.join(os.path.dirname(__file__), "Static"))),
             ],
             template_path=os.path.join(os.path.dirname(__file__), "Template"),

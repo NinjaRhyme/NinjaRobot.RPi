@@ -21,8 +21,8 @@ class NinjaHeart(NinjaObject):
     # ----------------------------------------------------------------------------------------------------
     def run(self):
 		# start services
-        # for server in self.services:
-        #    server.start()
+        for server in self.services:
+            server.start()
         super(NinjaHeart, self).run()
 
     def process(self):

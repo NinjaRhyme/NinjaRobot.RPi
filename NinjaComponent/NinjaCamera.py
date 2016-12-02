@@ -23,22 +23,23 @@ class NinjaCamera(NinjaComponent):
         self.is_need_update = False
         self.luffing_signal = 7.5
         self.swing_signal = 7.5
+        self.camera = None
         # camera
-        try:
-            self.width = 640
-            self.height = 480
-            self.framerate = 24
-            self.JSMPEG_MAGIC = b'jsmp'
-            self.JSMPEG_HEADER = Struct('>4sHH')
-            self.camera = picamera.PiCamera()
-            self.camera.resolution = (self.width, self.height)
-            self.camera.framerate = self.framerate
-            time.sleep(1) # camera warm-up time
-            self.output = CameraOutput(self.camera)
-            self.camera.start_recording(self.output, 'yuv') # record
-        except:
-            print('Camera error')
-            pass
+        # try:
+        #     self.width = 640
+        #     self.height = 480
+        #     self.framerate = 24
+        #     self.JSMPEG_MAGIC = b'jsmp'
+        #     self.JSMPEG_HEADER = Struct('>4sHH')
+        #     self.camera = picamera.PiCamera()
+        #     self.camera.resolution = (self.width, self.height)
+        #     self.camera.framerate = self.framerate
+        #     time.sleep(1) # camera warm-up time
+        #     self.output = CameraOutput(self.camera)
+        #     self.camera.start_recording(self.output, 'yuv') # record
+        # except:
+        #     print('Camera error')
+        #     pass
 
     # ----------------------------------------------------------------------------------------------------
     def process(self):

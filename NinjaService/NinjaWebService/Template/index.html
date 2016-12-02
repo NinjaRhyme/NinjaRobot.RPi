@@ -2,8 +2,18 @@
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+  <meta name="viewport" content="width=640, initial-scale=1.0"/>
+  <style type="text/css">
+      body {
+        background: #333;
+        text-align: center;
+        margin-top: 10%;
+      }
+      #videoCanvas {
+        width: 640px;
+        height: 480px;
+      }
+  </style>
   <title>Robot</title>
   <script src="/js/third/jsmpg.js"></script>
   <script src="/js/third/react.js"></script>
@@ -14,6 +24,19 @@
 </head>
 
 <body>
+  <canvas id="videoCanvas" width="640" height="480">
+  </canvas>
+  <script type="text/javascript" src="jsmpg.js"></script>
+  <script type="text/javascript">
+    var canvas = document.getElementById('videoCanvas');
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#444';
+    ctx.fillText('Loading...', canvas.width/2-30, canvas.height/3);
+
+    var client = new WebSocket('ws://' + window.location.hostname + ':8084/');
+    var player = new jsmpeg(client, {canvas:canvas});
+  </script>
+
   <div id="content"></div>
   <script type="text/javascript" src="/build/bundle.js"></script>
 </body>

@@ -10,7 +10,6 @@ export class MainView extends React.Component {
   render() {
     return (
       <div className="main_view">
-        <CameraView/>
         <InputView/>
       </div>
     );
