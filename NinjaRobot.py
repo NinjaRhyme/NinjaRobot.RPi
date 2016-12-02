@@ -20,13 +20,12 @@ class NinjaRobot(NinjaObject):
     # ----------------------------------------------------------------------------------------------------
     def run(self):
         self.controller.start()
-        #self.memory.start()
+        self.memory.start()
         self.heart.start()
         super(NinjaRobot, self).run()
 
     def process(self):
-        self.heart.join()
-        #time.sleep(3)
+        time.sleep(1)
 
     def exit(self):
         self.heart.stop()

@@ -37,7 +37,7 @@ class NinjaCamera(NinjaComponent):
             self.output = CameraOutput(self.camera)
             self.camera.start_recording(self.output, 'yuv') # record
         except:
-            print 'Camera error'
+            print('Camera error')
             pass
 
     # ----------------------------------------------------------------------------------------------------
